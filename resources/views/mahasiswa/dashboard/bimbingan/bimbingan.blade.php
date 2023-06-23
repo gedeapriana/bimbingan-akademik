@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($data->formbimbingan as $bimbingan )
+        @foreach ($data->formbimbingan->sortBy('semester') as $bimbingan )
         <tr>
           <th scope="row">#{{ $bimbingan->id }}</th>
           <td>{{ $bimbingan->semester }}</td>
@@ -44,7 +44,7 @@
           <td>{{ $bimbingan->surat_peringatan }}</td>
           <td>
             <a href="/dashboard-mahasiswa/bimbingan/edit/{{ $bimbingan->id }}" class="btn btn-primary">Ubah</a>
-            <a href="" class="btn btn-success">Evaluasi</a>
+            <a href="/dashboard-mahasiswa/bimbingan/evaluasi/{{ $bimbingan->id }}" class="btn btn-success">Evaluasi</a>
           </td>
         </tr>
         @endforeach

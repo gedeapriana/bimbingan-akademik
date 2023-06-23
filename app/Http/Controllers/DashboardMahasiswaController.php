@@ -109,6 +109,38 @@ class DashboardMahasiswaController extends Controller {
     return redirect('/dashboard-mahasiswa/bimbingan')->with('success', 'Form bimbingan berhasil diperbaharui');
 	}
 
+	public function evaluasiBimbingan($id) {
+		$formbimbingan = FormBimbingan::findOrFail($id);
+		return view('mahasiswa.dashboard.bimbingan.evaluasi', [
+			'title' => 'Evaluasi',
+			'formbimbingan' => $formbimbingan
+		]);
+	}
+
+	public function storeEvaluasiBimbingan(Request $request, $id) {
+		$credentials = $request->validate([
+			'tanggal_evaluasi' => ['required'],
+			'masalah' => ['required', 'min:3']
+		], [
+			'tanggal_evaluasi.required' => 'Tanggla evaluasi tidak boleh kosong',
+			'masalah.required' => 'Masalah tidak boleh kosong',
+			'masalah.min' => 'Minimal 3 kalimat'
+		]);
+
+		$lastId = DB::table('form_evaluasi')->max('id');
+		$newId = $lastId + 1;
+
+		DB::table('form_evaluasi')->insert([
+			'id'								=> $newId,
+			'tgl_evaluasi'	=> $request->tanggal_evaluasi,
+			'masalah'						=> $request->masalah,
+			'created_at'				=> now(),
+			'updated_at'				=> now(),
+			'form_bimbingan_id'	=> $id
+		]);
+		return redirect(route('dashboard-mahasiswa.bimbingan'))->with('success', 'Evaluasi berhasil ditambah pada form dengan id '. $id);
+	}
+
 	public function riwayat() {
 		$data = FormBimbingan::with(['formevaluasi'])->find(Auth::id());
 		return view('mahasiswa.dashboard.riwayat.riwayat', [

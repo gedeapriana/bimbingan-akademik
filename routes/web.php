@@ -47,6 +47,8 @@ Route::get('/dashboard-mahasiswa/bimbingan/tambah', [DashboardMahasiswaControlle
 Route::post('/dashboard-mahasiswa/bimbingan/tambah', [DashboardMahasiswaController::class, 'storeBimbingan'])->middleware('auth:mahasiswa');
 Route::get('/dashboard-mahasiswa/bimbingan/edit/{id}', [DashboardMahasiswaController::class, 'editBimbingan'])->middleware('auth:mahasiswa');
 Route::put('/dashboard-mahasiswa/bimbingan/edit/{id}', [DashboardMahasiswaController::class, 'updateBimbingan'])->middleware('auth:mahasiswa');
+Route::get('/dashboard-mahasiswa/bimbingan/evaluasi/{id}', [DashboardMahasiswaController::class, 'evaluasiBimbingan'])->middleware('auth:mahasiswa');
+Route::post('/dashboard-mahasiswa/bimbingan/evaluasi/{id}', [DashboardMahasiswaController::class, 'storeEvaluasiBimbingan'])->middleware('auth:mahasiswa');
 
 Route::get('/dashboard-mahasiswa/riwayat', [DashboardMahasiswaController::class, 'riwayat'])->name('dashboard-mahasiswa.riwayat')->middleware('auth:mahasiswa');
 
