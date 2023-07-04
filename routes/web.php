@@ -41,7 +41,6 @@ Route::get('/logout-mahasiswa', [LoginMahasiswaController::class, 'logout'])->mi
 Route::get('/dashboard-mahasiswa', [DashboardMahasiswaController::class, 'profile'])->name('dashboard-mahasiswa')->middleware('auth:mahasiswa');
 Route::get('/dashboard-mahasiswa/edit', [DashboardMahasiswaController::class, 'editProfile'])->middleware('auth:mahasiswa');
 Route::put('/dashboard-mahasiswa/edit', [DashboardMahasiswaController::class, 'updateProfile'])->middleware('auth:mahasiswa');
-
 Route::get('/dashboard-mahasiswa/bimbingan', [DashboardMahasiswaController::class, 'bimbingan'])->name('dashboard-mahasiswa.bimbingan')->middleware('auth:mahasiswa');
 Route::get('/dashboard-mahasiswa/bimbingan/tambah', [DashboardMahasiswaController::class, 'addBimbingan'])->middleware('auth:mahasiswa');
 Route::post('/dashboard-mahasiswa/bimbingan/tambah', [DashboardMahasiswaController::class, 'storeBimbingan'])->middleware('auth:mahasiswa');
@@ -51,12 +50,16 @@ Route::get('/dashboard-mahasiswa/bimbingan/evaluasi/{id}', [DashboardMahasiswaCo
 Route::post('/dashboard-mahasiswa/bimbingan/evaluasi/{id}', [DashboardMahasiswaController::class, 'storeEvaluasiBimbingan'])->middleware('auth:mahasiswa');
 
 Route::get('/dashboard-mahasiswa/riwayat', [DashboardMahasiswaController::class, 'riwayat'])->name('dashboard-mahasiswa.riwayat')->middleware('auth:mahasiswa');
+Route::get('/dashboard-mahasiswa/riwayat/{id}', [DashboardMahasiswaController::class, 'riwayatDetail'])->middleware('auth:mahasiswa');
+
+
 
 // Dosen Controller
 Route::get('/login-dosen', [LoginDosenController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login-dosen', [LoginDosenController::class, 'authenticate']);
 Route::post('/logout-dosen', [LoginMahasiswaController::class, 'logout'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen', [DashboardDosenController::class, 'profile'])->middleware('auth:dosen');
+Route::get('/dashboard-dosen/edit', [DashboardDosenController::class, 'profileEdit'])->middleware('auth:dosen');
 
 // Kaprodi Controller
 Route::get('/login-kaprodi', [LoginKaprodiController::class, 'index']);

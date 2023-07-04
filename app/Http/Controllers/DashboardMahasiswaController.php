@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormBimbingan;
+use App\Models\FormEvaluasi;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -132,7 +133,7 @@ class DashboardMahasiswaController extends Controller {
 
 		DB::table('form_evaluasi')->insert([
 			'id'								=> $newId,
-			'tgl_evaluasi'	=> $request->tanggal_evaluasi,
+			'tgl_evaluasi'	    => $request->tanggal_evaluasi,
 			'masalah'						=> $request->masalah,
 			'created_at'				=> now(),
 			'updated_at'				=> now(),
@@ -142,10 +143,26 @@ class DashboardMahasiswaController extends Controller {
 	}
 
 	public function riwayat() {
-		$data = FormBimbingan::with(['formevaluasi'])->find(Auth::id());
+//		$data = FormEvaluasi::all();
+    $data = DB::table('mahasiswa')
+      ->join('form_bimbingan', 'mahasiswa.id', '=', 'form_bimbingan.mahasiswa_id')
+      ->join('form_evaluasi', 'form_bimbingan.id', '=', 'form_evaluasi.form_bimbingan_id')
+      ->select('mahasiswa.nama', 'form_bimbingan.*', 'form_evaluasi.*')
+      ->where('mahasiswa.id', Auth::id())
+      ->orderBy('form_bimbingan.created_at', 'desc')
+      ->get();
+
 		return view('mahasiswa.dashboard.riwayat.riwayat', [
 			'title' => 'Riwayat',
 			'data' => $data,
 		]);
 	}
+
+  public function riwayatDetail($id) {
+    $data = FormEvaluasi::findOrFail($id);
+    return view('mahasiswa.dashboard.riwayat.detail', [
+      'title' => 'Riwayat',
+      'detail' => $data
+    ]);
+  }
 }

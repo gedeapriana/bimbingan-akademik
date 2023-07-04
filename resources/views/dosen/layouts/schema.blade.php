@@ -24,7 +24,9 @@
       <article class="h-100 border-end" style="width: 350px">
         @include('dosen.layouts.sidebar')
       </article>
-      <article class="flex-grow-1"></article>
+      <article class="flex-grow-1 d-flex align-items-start">
+        @yield('dosen-mainbar')
+      </article>
     </main>
   </div>
 </body>
