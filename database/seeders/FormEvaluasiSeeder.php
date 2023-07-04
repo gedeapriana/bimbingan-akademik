@@ -14,12 +14,14 @@ class FormEvaluasiSeeder extends Seeder
 		 */
 		public function run(): void {
 			$faker = Faker::create('id_ID');
-			for($i = 1; $i <= 1000; $i++){
+			for($i = 1; $i <= 400; $i++){
 				DB::table('form_evaluasi')->insert([
-					'id_evaluasi' => $i,
+					'id' => $i,
 					'tgl_evaluasi' => $faker->date(),
-					'masalah'	=> $faker->sentence(10) . '?',
-					'bimbingan_id' => $faker->randomNumber(1, 500),
+          'masalah' => $faker->text() . '?',
+          'created_at' => $faker->dateTime(),
+          'updated_at' => $faker->dateTime(),
+					'form_bimbingan_id' => $faker->randomNumber(1, 12),
 				]);
 			}
 		}

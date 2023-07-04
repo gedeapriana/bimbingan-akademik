@@ -48,11 +48,8 @@ Route::get('/dashboard-mahasiswa/bimbingan/edit/{id}', [DashboardMahasiswaContro
 Route::put('/dashboard-mahasiswa/bimbingan/edit/{id}', [DashboardMahasiswaController::class, 'updateBimbingan'])->middleware('auth:mahasiswa');
 Route::get('/dashboard-mahasiswa/bimbingan/evaluasi/{id}', [DashboardMahasiswaController::class, 'evaluasiBimbingan'])->middleware('auth:mahasiswa');
 Route::post('/dashboard-mahasiswa/bimbingan/evaluasi/{id}', [DashboardMahasiswaController::class, 'storeEvaluasiBimbingan'])->middleware('auth:mahasiswa');
-
 Route::get('/dashboard-mahasiswa/riwayat', [DashboardMahasiswaController::class, 'riwayat'])->name('dashboard-mahasiswa.riwayat')->middleware('auth:mahasiswa');
 Route::get('/dashboard-mahasiswa/riwayat/{id}', [DashboardMahasiswaController::class, 'riwayatDetail'])->middleware('auth:mahasiswa');
-
-
 
 // Dosen Controller
 Route::get('/login-dosen', [LoginDosenController::class, 'index'])->middleware('guest')->name('login');
@@ -60,6 +57,10 @@ Route::post('/login-dosen', [LoginDosenController::class, 'authenticate']);
 Route::post('/logout-dosen', [LoginMahasiswaController::class, 'logout'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen', [DashboardDosenController::class, 'profile'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen/edit', [DashboardDosenController::class, 'profileEdit'])->middleware('auth:dosen');
+Route::put('/dashboard-dosen/edit', [DashboardDosenController::class, 'profileUpdate'])->middleware('auth:dosen');
+
+Route::get('/dashboard-dosen/report-bimbingan', [DashboardDosenController::class, 'reportBimbingan'])->middleware('auth:dosen');
+Route::get('/dashboard-dosen/report-bimbingan/{id}', [DashboardDosenController::class, 'evaluasiBimbingan'])->middleware('auth:dosen');
 
 // Kaprodi Controller
 Route::get('/login-kaprodi', [LoginKaprodiController::class, 'index']);

@@ -20,7 +20,7 @@
 <body>
   <div class="container-fluid p-0" style="height: 100vh; overflow: hidden;">
     @include('mahasiswa.layouts.navbar')
-    <main class="container-fluid p-0 h-100 d-flex justify-content-center align-items-center">
+    <main class="container-fluid p-0 h-100 d-flex justify-content-center">
       <article class="h-100 border-end">
         @include('mahasiswa.layouts.sidebar')
       </article>

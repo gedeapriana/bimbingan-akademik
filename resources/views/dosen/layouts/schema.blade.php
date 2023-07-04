@@ -18,13 +18,13 @@
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-  <div class="container-fluid p-0" style="height: 100vh; overflow: hidden;">
+  <div class="container-fluid p-0" style="height: 100vh;">
     @include('dosen.layouts.navbar')
-    <main class="container-fluid p-0 h-100 d-flex justify-content-center align-items-center">
+    <main class="container-fluid p-0 h-100 d-flex justify-content-center align-items-start">
       <article class="h-100 border-end" style="width: 350px">
         @include('dosen.layouts.sidebar')
       </article>
-      <article class="flex-grow-1 d-flex align-items-start">
+      <article class="flex-grow-1 d-flex h-100 align-items-start overflow-auto juscify-content-center">
         @yield('dosen-mainbar')
       </article>
     </main>
