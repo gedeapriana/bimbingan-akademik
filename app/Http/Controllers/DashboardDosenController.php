@@ -57,10 +57,41 @@ class DashboardDosenController extends Controller
       ->orderBy('form_bimbingan.created_at', 'desc')
       ->get();
 
-
     return view('dosen.dashboard.report-bimbingan.evaluasi', [
       'title' => 'Evaluasi Bimbingan',
       'daftarEvaluasi' => $data,
     ]);
+  }
+  public function detailEvaluasiBimbingan($id) {
+    $data = FormEvaluasi::findOrFail($id);
+    return view('dosen.dashboard.report-bimbingan.detail', [
+      'title' => 'Detail Evaluasi Bimbingan',
+      'evaluasi' => $data,
+    ]);
+  }
+  public function updateEvaluasiBimbingan(Request $request, $id) {
+    $request->validate([
+      'solusi' => 'required',
+    ], [
+      'solusi.required' => 'Solusi harus diisi',
+    ]);
+
+    if ($request->selesai == '1') {
+      DB::table('form_evaluasi')
+        ->where('id', $id)
+        ->update([
+          'solusi' => $request->solusi,
+          'selesai' => 'true',
+        ]);
+    } else {
+      DB::table('form_evaluasi')
+        ->where('id', $id)
+        ->update([
+          'solusi' => $request->solusi,
+          'selesai' => 'false',
+        ]);
+    }
+
+    return redirect('/dashboard-dosen/report-bimbingan')->with('success', 'Solusi berhasil dikirim');
   }
 }

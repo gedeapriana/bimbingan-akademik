@@ -40,7 +40,7 @@
             </div>
           </td>
           <td>
-            <a href="" class="btn btn-primary">Detail</a>
+            <a href="/dashboard-dosen/report-bimbingan/evaluasi/{{ $evaluasi->id }}" class="btn btn-primary">Detail</a>
           </td>
         </tr>
         @endforeach

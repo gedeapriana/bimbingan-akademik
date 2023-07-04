@@ -21,6 +21,8 @@
           <th scope="col">NO</th>
           <th scope="col">NIM</th>
           <th scope="col">NAMA</th>
+          <th scope="col">JUMLAH EVALUASI</th>
+          <th scope="col">SELESAI EVALUASI</th>
           <th scope="col">EVALUASI</th>
         </tr>
       </thead>
@@ -30,6 +32,8 @@
           <td>{{ $loop->iteration }}</td>
           <td>{{ $mahasiswa->id }}</td>
           <td>{{ $mahasiswa->nama }}</td>
+          <td></td>
+          <td></td>
           <td>
             <a href="/dashboard-dosen/report-bimbingan/{{ $mahasiswa->id }}" class="btn btn-primary">Evaluasi</a>
           </td>

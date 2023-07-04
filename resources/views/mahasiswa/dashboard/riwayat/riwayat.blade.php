@@ -24,7 +24,9 @@
       <thead>
         <tr>
           <th scope="col" class="">No</th>
+          <th scope="col" class="">Id</th>
           <th scope="col" class="">Tanggal</th>
+          <th scope="col" class="">Status</th>
           <th scope="col">Detail</th>
         </tr>
       </thead>
@@ -33,6 +35,8 @@
       @foreach($data as $riwayat)
         <tr>
           <td>{{ $loop->iteration }}</td>
+          <td>#{{ $riwayat->id }}</td>
+          <td>{{ $riwayat->selesai == 'true' ? 'Diselesaikan' : 'Belum Diselesaikan'}}</td>
           <td>{{ \Carbon\Carbon::parse($riwayat->tgl_evaluasi)->translatedFormat('d F Y') }}</td>
           <td>
             <a href="/dashboard-mahasiswa/riwayat/{{ $riwayat->id }}" class="btn btn-success">Lihat Detail</a>

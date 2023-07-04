@@ -61,6 +61,8 @@ Route::put('/dashboard-dosen/edit', [DashboardDosenController::class, 'profileUp
 
 Route::get('/dashboard-dosen/report-bimbingan', [DashboardDosenController::class, 'reportBimbingan'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen/report-bimbingan/{id}', [DashboardDosenController::class, 'evaluasiBimbingan'])->middleware('auth:dosen');
+Route::get('/dashboard-dosen/report-bimbingan/evaluasi/{id}', [DashboardDosenController::class, 'detailEvaluasiBimbingan'])->middleware('auth:dosen');
+Route::put('/dashboard-dosen/report-bimbingan/evaluasi/edit/{id}', [DashboardDosenController::class, 'updateEvaluasiBimbingan'])->middleware('auth:dosen');
 
 // Kaprodi Controller
 Route::get('/login-kaprodi', [LoginKaprodiController::class, 'index']);
