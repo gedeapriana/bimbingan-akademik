@@ -18,6 +18,7 @@
   <div class="row mx-5 mb-5 pb-3">
     <div class="col-lg-3 d-flex justify-content-center flex-column align-items-center">
       <div class="ratio bg-secondary-subtle" style="width: 200px; aspect-ratio: 3/4">
+        <img class="w-100 h-100 object-fit-cover" src="{{ asset('storage/' . $mahasiswa->foto) }}" alt="">
       </div>
       <h4 class="fw-bold mb-0 mt-3 text-center">{{ $mahasiswa->nama }}</h4>
       <p class="text-center">Mahasiswa {{ $mahasiswa->prodi }}, jurusan {{ $mahasiswa->jurusan }}</p>

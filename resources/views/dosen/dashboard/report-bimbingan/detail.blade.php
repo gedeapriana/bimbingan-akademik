@@ -48,7 +48,7 @@
             Tandai sudah selesai
           </label>
         </div>
-        <a href="/dashboard-dosen/report-bimbingan" class="btn btn-secondary">Kembali</a>
+        <a onclick="goBack()" class="btn btn-secondary">Kembali</a>
         <button type="submit" class="btn btn-primary">Kirim</button>
       </footer>
 

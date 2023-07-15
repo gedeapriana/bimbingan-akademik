@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardDosenController;
+use App\Http\Controllers\DashboardKaprodiController;
 use App\Http\Controllers\DashboardMahasiswaController;
 use App\Http\Controllers\LoginDosenController;
 use App\Http\Controllers\LoginKaprodiController;
@@ -37,7 +38,6 @@ Route::get('/login-mahasiswa', [LoginMahasiswaController::class, 'index'])->midd
 Route::post('/login-mahasiswa', [LoginMahasiswaController::class, 'authenticate']);
 Route::post('/logout-mahasiswa', [LoginMahasiswaController::class, 'logout'])->middleware('auth:mahasiswa');
 Route::get('/logout-mahasiswa', [LoginMahasiswaController::class, 'logout'])->middleware('auth:mahasiswa');
-
 Route::get('/dashboard-mahasiswa', [DashboardMahasiswaController::class, 'profile'])->name('dashboard-mahasiswa')->middleware('auth:mahasiswa');
 Route::get('/dashboard-mahasiswa/edit', [DashboardMahasiswaController::class, 'editProfile'])->middleware('auth:mahasiswa');
 Route::put('/dashboard-mahasiswa/edit', [DashboardMahasiswaController::class, 'updateProfile'])->middleware('auth:mahasiswa');
@@ -58,11 +58,17 @@ Route::post('/logout-dosen', [LoginMahasiswaController::class, 'logout'])->middl
 Route::get('/dashboard-dosen', [DashboardDosenController::class, 'profile'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen/edit', [DashboardDosenController::class, 'profileEdit'])->middleware('auth:dosen');
 Route::put('/dashboard-dosen/edit', [DashboardDosenController::class, 'profileUpdate'])->middleware('auth:dosen');
-
 Route::get('/dashboard-dosen/report-bimbingan', [DashboardDosenController::class, 'reportBimbingan'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen/report-bimbingan/{id}', [DashboardDosenController::class, 'evaluasiBimbingan'])->middleware('auth:dosen');
 Route::get('/dashboard-dosen/report-bimbingan/evaluasi/{id}', [DashboardDosenController::class, 'detailEvaluasiBimbingan'])->middleware('auth:dosen');
 Route::put('/dashboard-dosen/report-bimbingan/evaluasi/edit/{id}', [DashboardDosenController::class, 'updateEvaluasiBimbingan'])->middleware('auth:dosen');
-
+Route::get('/dashboard-dosen/riwayat', [DashboardDosenController::class, 'riwayat'])->middleware('auth:dosen');
+Route::get('/dashboard-dosen/riwayat/{id}', [DashboardDosenController::class, 'riwayatList'])->middleware('auth:dosen');
 // Kaprodi Controller
-Route::get('/login-kaprodi', [LoginKaprodiController::class, 'index']);
+Route::get('/login-kaprodi', [LoginKaprodiController::class, 'index'])->middleware('guest')->name('login');
+Route::post('/login-kaprodi', [LoginKaprodiController::class, 'authenticate']);
+Route::get('/dashboard-kaprodi', [DashboardKaprodiController::class, 'profile'])->middleware('auth:kaprodi');
+Route::get('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profileEdit'])->middleware('auth:kaprodi');
+Route::put('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profileUpdate'])->middleware('auth:kaprodi');
+
+Route::get('/dashboard-kaprodi/kelola', [DashboardKaprodiController::class, 'kelola'])->middleware('auth:kaprodi');

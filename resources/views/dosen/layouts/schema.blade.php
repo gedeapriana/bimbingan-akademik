@@ -29,5 +29,7 @@
       </article>
     </main>
   </div>
+
+  <script src="{{ asset('src/js/goBack.js') }}"></script>
 </body>
 </html>

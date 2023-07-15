@@ -27,17 +27,21 @@ class DashboardMahasiswaController extends Controller {
 	}
 	public function updateProfile(Request $request) {
 		$mahasiswa = Auth::user();
-
-		$request->validate([
+		$credentials = $request->validate([
 			'nama' 						=> ['required'],
 			'alamat' 					=> ['required'],
 			'no_hp' 					=> ['required'],
 			'nama_orangtua'		=> ['required'],
 			'alamat_orangtua'	=> ['required'],
-			'no_hp_orangtua' 	=> ['required']
+			'no_hp_orangtua' 	=> ['required'],
+      'foto'   => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5000'],
 		]);
 
-    $mahasiswa->update($request->all());
+    if ($request->file('foto')) {
+      $credentials['foto'] = $request->file('foto')->store('foto');
+    }
+
+    $mahasiswa->update($credentials);
 		return redirect('/dashboard-mahasiswa')->with('success', 'Profil berhasil diperbaharui');
 	}
 

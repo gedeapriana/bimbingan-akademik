@@ -24,20 +24,16 @@
       <h3 class="fw-bolder">Login Sebagai Kaprodi</h3>
       <p>Masukkan nip kaprodi dan password</p>
     </header>
-    <form action="/login-mahasiswa" method="post" class="w-100 d-flex justify-content-center align-items-center flex-column" style="max-width: 400px;">
+    <form action="/login-kaprodi" method="post" class="w-100 d-flex justify-content-center align-items-center flex-column" style="max-width: 400px;">
       @csrf
       <div class="mb-3 w-100">
-        <label for="nip_kaprodi" class="form-label">NIP KAPRODI</label>
-        <input type="text" class="form-control" id="nip_kaprodi" name="nip_kaprodi">
+        <label for="id" class="form-label">NIP KAPRODI</label>
+        <input type="text" class="form-control" id="id" name="id">
       </div>
       <div class="mb-3 w-100">
         <label for="password" class="form-label">PASSWORD</label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" name="password" id="password">
       </div>
-      {{-- <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div> --}}
       <div class="d-flex gap-2 m-3">
         <button type="submit" class="btn border">Login</button>
         <a href="/" class="btn border">Batal</a>

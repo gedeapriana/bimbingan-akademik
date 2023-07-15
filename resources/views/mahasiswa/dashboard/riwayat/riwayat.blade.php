@@ -36,10 +36,10 @@
         <tr>
           <td>{{ $loop->iteration }}</td>
           <td>#{{ $riwayat->id }}</td>
-          <td>{{ $riwayat->selesai == 'true' ? 'Diselesaikan' : 'Belum Diselesaikan'}}</td>
           <td>{{ \Carbon\Carbon::parse($riwayat->tgl_evaluasi)->translatedFormat('d F Y') }}</td>
+          <td><span class="badge {{ $riwayat->selesai == 'true' ? 'text-bg-success' : 'text-bg-danger' }}">{{ $riwayat->selesai == 'true' ? 'Diselesaikan' : 'Belum Diselesaikan'}}</span></td>
           <td>
-            <a href="/dashboard-mahasiswa/riwayat/{{ $riwayat->id }}" class="btn btn-success">Lihat Detail</a>
+            <a href="/dashboard-mahasiswa/riwayat/{{ $riwayat->id }}" class="btn btn-primary">Lihat Detail</a>
           </td>
         </tr>
       @endforeach

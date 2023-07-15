@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\FormBimbingan;
 use App\Models\FormEvaluasi;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class DashboardDosenController extends Controller
 {
@@ -17,7 +20,6 @@ class DashboardDosenController extends Controller
       'dosen' => $data,
 		]);
 	}
-
   public function profileEdit() {
     $data = Dosen::findOrFail(Auth::id());
     return view('dosen.dashboard.profile.edit', [
@@ -25,7 +27,6 @@ class DashboardDosenController extends Controller
       'dosen' => $data,
     ]);
   }
-
   public function profileUpdate(Request $request) {
     $dosen = Auth::user();
     $request->validate([
@@ -39,7 +40,6 @@ class DashboardDosenController extends Controller
     $dosen->update($request->all());
     return redirect('/dashboard-dosen')->with('success', 'Data berhasil diubah');
   }
-
   public function reportBimbingan() {
     $data = Dosen::with(['mahasiswa'])->findOrFail(Auth::id());
     return view('dosen.dashboard.report-bimbingan.report-bimbingan', [
@@ -47,7 +47,6 @@ class DashboardDosenController extends Controller
       'daftarMahasiswa' => $data->mahasiswa,
     ]);
   }
-
   public function evaluasiBimbingan($id) {
     $data = DB::table('mahasiswa')
       ->join('form_bimbingan', 'mahasiswa.id', '=', 'form_bimbingan.mahasiswa_id')
@@ -92,6 +91,45 @@ class DashboardDosenController extends Controller
         ]);
     }
 
-    return redirect('/dashboard-dosen/report-bimbingan')->with('success', 'Solusi berhasil dikirim');
+/*    Session::flash('success', 'Data berhasil disimpan.');*/
+    return back()->with('success', 'Data berhasil disimpan.');
+  }
+  public function riwayat() {
+/*    $data = Mahasiswa::with(['formbimbingan.formevaluasi'])
+      ->where('dosen_id', Auth::id())
+      ->orderBy('created_at', 'desc')
+      ->get();*/
+
+/*    $data = Mahasiswa::whereHas('formevaluasi', function ($query) {
+      $query->where('selesai', true);
+    })->get();*/
+
+    $data = Mahasiswa::with(['formbimbingan', 'formbimbingan.formevaluasi'])->whereHas('formbimbingan.formevaluasi', function ($query) {
+      $query->where('selesai', 'true');
+    })->orWhereHas('formbimbingan.formevaluasi', function ($query) {
+      $query->where('selesai', 'false');
+    })->get();
+
+    return view('dosen.dashboard.riwayat.riwayat', [
+      'title' => 'Riwayat',
+      'daftarMahasiswa' => $data,
+    ]);
+  }
+  public function riwayatList($id) {
+
+    $formevaluasi = DB::table('form_evaluasi')
+      ->whereIn('selesai', ['true', 'false'])
+      ->whereIn('form_bimbingan_id', function ($query) use ($id) {
+        $query->select('id')
+          ->from('form_bimbingan')
+          ->where('mahasiswa_id', $id);
+      })
+      ->orderBy('selesai', 'asc')
+      ->get();
+
+    return view('dosen.dashboard.riwayat.list', [
+      'title' => 'Riwayat',
+      'daftarEvaluasi' => $formevaluasi
+    ]);
   }
 }
