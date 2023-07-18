@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
 use App\Models\Kaprodi;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -60,6 +61,16 @@ class DashboardKaprodiController extends Controller
     return view('kaprodi.dashboard.kelola.kelola', [
       'title' => 'Kelola',
       'semuaData' => $data->get(),
+    ]);
+  }
+
+  public function ubahBimbingan($id) {
+    $mahasiswa = Mahasiswa::findOrFail($id);
+    $semuaDosen = Dosen::where('prodi', Auth::user()->prodi)->get();
+    return view('kaprodi.dashboard.kelola.ubah', [
+      'title' => 'Kelola',
+      'semuaDosen' => $semuaDosen,
+      'mahasiswa' => $mahasiswa,
     ]);
   }
 }

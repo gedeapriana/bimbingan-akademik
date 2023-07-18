@@ -95,15 +95,6 @@ class DashboardDosenController extends Controller
     return back()->with('success', 'Data berhasil disimpan.');
   }
   public function riwayat() {
-/*    $data = Mahasiswa::with(['formbimbingan.formevaluasi'])
-      ->where('dosen_id', Auth::id())
-      ->orderBy('created_at', 'desc')
-      ->get();*/
-
-/*    $data = Mahasiswa::whereHas('formevaluasi', function ($query) {
-      $query->where('selesai', true);
-    })->get();*/
-
     $data = Mahasiswa::with(['formbimbingan', 'formbimbingan.formevaluasi'])->whereHas('formbimbingan.formevaluasi', function ($query) {
       $query->where('selesai', 'true');
     })->orWhereHas('formbimbingan.formevaluasi', function ($query) {

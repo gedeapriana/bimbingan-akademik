@@ -72,3 +72,4 @@ Route::get('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profi
 Route::put('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profileUpdate'])->middleware('auth:kaprodi');
 
 Route::get('/dashboard-kaprodi/kelola', [DashboardKaprodiController::class, 'kelola'])->middleware('auth:kaprodi');
+Route::get('/dashboard-kaprodi/kelola/{id}', [DashboardKaprodiController::class, 'ubahBimbingan'])->middleware('auth:kaprodi');

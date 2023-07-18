@@ -38,8 +38,8 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ $data->nama }}</td>
               <td>{{ $data->id }}</td>
-              <td>{{ $data->dosen->nama }}</td>
-              <td>{{ $data->dosen->id }}</td>
+              <td>{{ $data->dosen->nama ?? '' }}</td>
+              <td>{{ $data->dosen->id ?? '' }}</td>
               <td><a href="/dashboard-kaprodi/kelola/{{ $data->id }}" class="btn btn-primary">Ubah</a></td>
             </tr>
           @endforeach
