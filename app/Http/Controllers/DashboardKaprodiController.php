@@ -90,6 +90,29 @@ class DashboardKaprodiController extends Controller
     ]);
 
     $mahasiswa->save();
-    return redirect('/dashboard-kaprodi/kelola')->with('success', 'Pembimbing mahasiswa'. $mahasiswa->nama .' berhasil diperbaharui');
+    return redirect('/dashboard-kaprodi/kelola')->with('success', 'Pembimbing mahasiswa'. $mahasiswa->nama .' - '. $dosen->nama .' berhasil diperbaharui');
+  }
+
+  function report() {
+    $semuaMahasiswa = Mahasiswa::with(['formbimbingan', 'formbimbingan.formevaluasi'])->where('kaprodi_id', Auth::user()->id)->get();
+
+    $data = [];
+
+    foreach ($semuaMahasiswa as $mahasiswa) {
+      foreach ($mahasiswa->formbimbingan as $formbimbingan) {
+        $data[] = [
+          'nama' => $mahasiswa->nama,
+          'semester' => $formbimbingan->semester,
+          'tahun_akademik' => $formbimbingan->tahun_akademik,
+          'status' => $formbimbingan->status,
+          'jumlah_evaluasi' => $formbimbingan->formevaluasi->count(),
+        ];
+      }
+    }
+
+    return view('kaprodi.dashboard.report.report', [
+      'title' => 'Report',
+      'semuaData' => $data,
+    ]);
   }
 }

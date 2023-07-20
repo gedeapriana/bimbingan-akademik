@@ -67,6 +67,7 @@ Route::get('/dashboard-dosen/riwayat/{id}', [DashboardDosenController::class, 'r
 // Kaprodi Controller
 Route::get('/login-kaprodi', [LoginKaprodiController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login-kaprodi', [LoginKaprodiController::class, 'authenticate']);
+Route::get('/logout-kaprodi', [LoginKaprodiController::class, 'logout'])->middleware('auth:kaprodi');
 Route::get('/dashboard-kaprodi', [DashboardKaprodiController::class, 'profile'])->middleware('auth:kaprodi');
 Route::get('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profileEdit'])->middleware('auth:kaprodi');
 Route::put('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profileUpdate'])->middleware('auth:kaprodi');
@@ -74,3 +75,5 @@ Route::put('/dashboard-kaprodi/edit', [DashboardKaprodiController::class, 'profi
 Route::get('/dashboard-kaprodi/kelola', [DashboardKaprodiController::class, 'kelola'])->middleware('auth:kaprodi');
 Route::get('/dashboard-kaprodi/kelola/{id}', [DashboardKaprodiController::class, 'ubahBimbingan'])->middleware('auth:kaprodi');
 Route::put('/dashboard-kaprodi/kelola/bimbingan/{id}', [DashboardKaprodiController::class, 'updateBimbingan'])->middleware('auth:kaprodi');
+
+Route::get('/dashboard-kaprodi/report', [DashboardKaprodiController::class, 'report'])->middleware('auth:kaprodi');
