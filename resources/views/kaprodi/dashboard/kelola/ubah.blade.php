@@ -15,18 +15,18 @@
 
 
     <div class="mx-5 mb-5 pb-3 d-flex justify-content-center align-items-center flex-column">
-      <form action="/dashboard-kaprodi/kelola" method="post" class="w-100 d-flex gap-3 justify-content-center align-items-end">
+      <form action="/dashboard-kaprodi/kelola/bimbingan/{{ $mahasiswa->id }}" method="post" class="w-100 d-flex gap-3 justify-content-center align-items-end">
         @method('PUT')
         @csrf
         <label class="flex-grow-1 d-flex flex-column gap-2">
           Nama Mahasiswa
-          <input type="text" class="form-control" placeholder="" value="{{ $mahasiswa->nama }}" disabled>
+          <input type="text" class="form-control" placeholder="" name="mahasiswa" value="{{ $mahasiswa->nama }}" disabled>
         </label>
         <label class="flex-grow-1 d-flex flex-column gap-2">
           Nama Dosen
-          <select type="text" class="form-select">
+          <select type="text" class="form-select" name="dosen">
             @foreach($semuaDosen as $dosen)
-              <option value="">{{ $dosen->nama }} ({{ $dosen->id }})</option>
+              <option value="{{ $dosen->id }}">{{ $dosen->nama }} ({{ $dosen->id }})</option>
             @endforeach
           </select>
         </label>

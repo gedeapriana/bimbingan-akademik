@@ -73,4 +73,23 @@ class DashboardKaprodiController extends Controller
       'mahasiswa' => $mahasiswa,
     ]);
   }
+
+  public function updateBimbingan(Request $request, $id) {
+
+    $mahasiswa = Mahasiswa::find($id);
+    $dosen = Dosen::find($request->dosen);
+
+    $credentials = $request->validate([
+      'dosen' => ['required']
+    ], [
+      'dosen.required' => "Dosen harus diisi",
+    ]);
+
+    $mahasiswa->update([
+      'dosen_id' => $credentials['dosen']
+    ]);
+
+    $mahasiswa->save();
+    return redirect('/dashboard-kaprodi/kelola')->with('success', 'Pembimbing mahasiswa'. $mahasiswa->nama .' berhasil diperbaharui');
+  }
 }
