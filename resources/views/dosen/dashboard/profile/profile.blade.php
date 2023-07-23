@@ -1,7 +1,6 @@
 @extends('dosen.layouts.schema')
 
 @section('dosen-mainbar')
-
   <div class="m-4 h-auto border">
     <header class="p-4 d-flex justify-content-center align-items-center flex-column">
       <h3 class="fw-bolder border-bottom">Profil Dosen</h3>
@@ -54,5 +53,4 @@
       </div>
     </div>
   </div>
-
 @endsection

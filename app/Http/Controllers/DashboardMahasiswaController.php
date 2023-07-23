@@ -37,6 +37,8 @@ class DashboardMahasiswaController extends Controller {
       'foto'   => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5000'],
 		]);
 
+    ddd($request->file('foto'));
+
     if ($request->file('foto')) {
       $credentials['foto'] = $request->file('foto')->store('foto');
     }

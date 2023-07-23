@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,13 +18,15 @@
   <!-- Scripts -->
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+
 <body style="height: 100vh" class="d-flex justify-content-center align-items-center">
   <div class="container d-flex gap-3 justify-content-center flex-column align-items-center">
     <header class="d-flex flex-column justify-content-center align-items-center">
       <h3 class="fw-bolder">Login Sebagai Dosen</h3>
       <p>Masukkan nip dan password</p>
     </header>
-    <form action="/login-dosen" method="post" class="w-100 d-flex justify-content-center align-items-center flex-column" style="max-width: 400px;">
+    <form action="/login-dosen" method="post"
+      class="w-100 d-flex justify-content-center align-items-center flex-column" style="max-width: 400px;">
       @csrf
       <div class="mb-3 w-100">
         <label for="nip" class="form-label">NIP</label>
@@ -44,4 +47,5 @@
     </form>
   </div>
 </body>
+
 </html>

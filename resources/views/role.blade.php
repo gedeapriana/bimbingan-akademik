@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
   <!-- Scripts -->
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+
 <body class="d-flex justify-content-center align-items-center" style="height: 100vh">
   <div class="d-flex justify-content-center p-5 border align-items-center flex-column">
     <header class="p-2">
@@ -44,4 +46,5 @@
     </div>
   </div>
 </body>
+
 </html>

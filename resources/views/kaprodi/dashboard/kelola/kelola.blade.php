@@ -13,43 +13,43 @@
       @endif
     </header>
 
-
     <div class="mx-5 mb-5 pb-3 d-flex justify-content-center align-items-center flex-column">
       <form action="/dashboard-kaprodi/kelola" class="my-3 ms-auto d-flex gap-2">
         <label for="search"></label>
-        <input type="text" class="form-control" name="search" id="search" placeholder="Nama, nim, dosen pendamping, nip">
+        <input type="text" class="form-control" name="search" id="search"
+          placeholder="Nama, nim, dosen pendamping, nip">
         <button type="submit" class="btn btn-primary">Cari</button>
       </form>
       <table class="table table-hover">
         <thead>
-        <tr>
-          <th scope="col">NO</th>
-          <th scope="col">NAMA</th>
-          <th scope="col">NIM</th>
-          <th scope="col">DOSEN PEMBIMBING</th>
-          <th scope="col">NIP</th>
-          <th scope="col">AKSI</th>
-        </tr>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">NAMA</th>
+            <th scope="col">NIM</th>
+            <th scope="col">DOSEN PEMBIMBING</th>
+            <th scope="col">NIP</th>
+            <th scope="col">AKSI</th>
+          </tr>
         </thead>
         <tbody>
-        @if(count($semuaData) > 0)
-          @foreach($semuaData as $data)
+          @if (count($semuaData) > 0)
+            @foreach ($semuaData as $data)
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $data->nama }}</td>
+                <td>{{ $data->id }}</td>
+                <td>{{ $data->dosen->nama ?? '' }}</td>
+                <td>{{ $data->dosen->id ?? '' }}</td>
+                <td><a href="/dashboard-kaprodi/kelola/{{ $data->id }}" class="btn btn-primary">Ubah</a></td>
+              </tr>
+            @endforeach
+          @else
             <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ $data->nama }}</td>
-              <td>{{ $data->id }}</td>
-              <td>{{ $data->dosen->nama ?? '' }}</td>
-              <td>{{ $data->dosen->id ?? '' }}</td>
-              <td><a href="/dashboard-kaprodi/kelola/{{ $data->id }}" class="btn btn-primary">Ubah</a></td>
+              <td colspan="6">
+                <p class="text-center my-3 text-danger">Data tidak tersedia</p>
+              </td>
             </tr>
-          @endforeach
-        @else
-          <tr>
-            <td colspan="6">
-              <p class="text-center my-3 text-danger">Data tidak tersedia</p>
-            </td>
-          </tr>
-        @endif
+          @endif
         </tbody>
       </table>
     </div>

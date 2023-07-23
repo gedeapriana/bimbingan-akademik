@@ -1,7 +1,6 @@
 @extends('kaprodi.layouts.schema')
 
 @section('kaprodi-mainbar')
-
   <div class="m-4 h-auto border">
     <header class="p-4 d-flex justify-content-center align-items-center flex-column">
       <h3 class="fw-bolder border-bottom">Profil Kepala Prodi</h3>
@@ -33,7 +32,6 @@
           <input type="text" value="{{ $kaprodi->id }}" class="form-control disabled" disabled>
         </div>
 
-
         <div class="col-lg-6 p-3">
           <label for="jurusan">Jurusan</label>
           <input type="text" value="{{ $kaprodi->jurusan }}" class="form-control disabled" disabled>
@@ -50,5 +48,4 @@
       </div>
     </div>
   </div>
-
 @endsection

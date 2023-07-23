@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Kaprodi;
 use App\Models\Mahasiswa;
+use App\Models\SuratKeputusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardKaprodiController extends Controller
 {
@@ -93,11 +95,9 @@ class DashboardKaprodiController extends Controller
     return redirect('/dashboard-kaprodi/kelola')->with('success', 'Pembimbing mahasiswa'. $mahasiswa->nama .' - '. $dosen->nama .' berhasil diperbaharui');
   }
 
-  function report() {
+  public function report() {
     $semuaMahasiswa = Mahasiswa::with(['formbimbingan', 'formbimbingan.formevaluasi'])->where('kaprodi_id', Auth::user()->id)->get();
-
     $data = [];
-
     foreach ($semuaMahasiswa as $mahasiswa) {
       foreach ($mahasiswa->formbimbingan as $formbimbingan) {
         $data[] = [
@@ -114,5 +114,56 @@ class DashboardKaprodiController extends Controller
       'title' => 'Report',
       'semuaData' => $data,
     ]);
+  }
+
+
+  public function sk() {
+    $data = SuratKeputusan::with(['kaprodi'])->get();
+    return view('kaprodi.dashboard.sk.sk', [
+      'title' => 'Surat Keputusan',
+      'semuaSk' => $data
+    ]);
+  }
+
+  public function addSk() {
+    return view('kaprodi.dashboard.sk.add', [
+      'title' => 'Tambah Surat Keputusan',
+    ]);
+  }
+
+  public function storeSk(Request $request) {
+
+    $credentials = $request->validate([
+      'nama' => ['required'],
+      'tanggal' => ['required'],
+      'fileSk' => ['required', 'max:10000', 'mimes:doc,pdf,docx']
+    ], [
+      'nama.required' => 'Nama surat tidak boleh kosong',
+      'tanggal.required' => 'Tanggal tidak boleh kosong',
+      'fileSk.required' => 'File tidak boleh kosong',
+      'fileSk.max' => 'File tidak boleh melebihi 10mb',
+      'fileSk.mimes' => 'File dalam bentuk doc, pdf atau docx',
+    ]);
+
+
+    if($request->file('fileSk')) {
+      $credentials['fileSk'] = $request->file('fileSk')->store('sk');
+    }
+
+		$lastId = DB::table('surat_keputusan')->max('id');
+		$newId = $lastId + 1;
+
+    DB::table('surat_keputusan')->insert([
+      'id' => $newId,
+      'nama' => $request->nama,
+      'tanggal' => $request->tanggal,
+      'link' => $request->file('fileSk')->store('sk'),
+      'nama_berkas' => $request->file('fileSk')->getClientOriginalName(),
+      'kaprodi_id' => auth()->user()->id,
+      'created_at' => now(),
+      'updated_at' => now(),
+    ]);
+
+    return redirect('/dashboard-kaprodi/sk')->with('success', 'Surat Keterangan berhasil ditambah');
   }
 }

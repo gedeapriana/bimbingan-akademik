@@ -17,4 +17,8 @@ class Kaprodi extends Model
 	public function mahasiswa():HasMany {
 		return $this->hasMany(Mahasiswa::class);
 	}
+
+  public function suratkeputusan():HasMany {
+    return $this->hasMany(SuratKeputusan::class);
+  }
 }

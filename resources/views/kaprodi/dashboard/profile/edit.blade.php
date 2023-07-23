@@ -1,9 +1,7 @@
 @extends('kaprodi.layouts.schema')
 
 @section('kaprodi-mainbar')
-
   <div class="m-4 h-auto border">
-
     <header class="p-4 d-flex justify-content-center align-items-center flex-column">
       <h3 class="fw-bolder border-bottom">Profil Kepala Prodi</h3>
       <p>Profil lengkap Kepala Prodi</p>
@@ -16,8 +14,8 @@
     </header>
 
     <form action="/dashboard-kaprodi/edit" method="post" class="row mx-5 mb-5 pb-3">
-    @method('PUT')
-    @csrf
+      @method('PUT')
+      @csrf
       <div class="row mx-5 mb-5 pb-3">
         <div class="col-lg-3 d-flex justify-content-center flex-column align-items-center">
           <div class="ratio bg-secondary-subtle" style="width: 200px; aspect-ratio: 3/4">
@@ -33,8 +31,12 @@
         <div class="col-lg-9 row">
 
           <div class="col-lg-6 p-3">
-            <label for="nama">Nama kaprodi @error('nama') <span class="text-danger">({{ $message }})</span> @enderror</label>
-            <input type="text" id="nama" value="{{ $kaprodi->nama }}" class="form-control disabled" name="nama" value="{{ old('nama') }}">
+            <label for="nama">Nama kaprodi @error('nama')
+                <span class="text-danger">({{ $message }})</span>
+              @enderror
+            </label>
+            <input type="text" id="nama" value="{{ $kaprodi->nama }}" class="form-control disabled" name="nama"
+              value="{{ old('nama') }}">
           </div>
 
           <div class="col-lg-6 p-3">
@@ -60,5 +62,4 @@
       </div>
     </form>
   </div>
-
 @endsection

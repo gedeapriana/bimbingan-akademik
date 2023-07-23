@@ -1,4 +1,3 @@
-
 @extends('kaprodi.layouts.schema')
 
 @section('kaprodi-mainbar')
@@ -17,26 +16,34 @@
     <div class="mx-5 mb-5 pb-3 d-flex justify-content-center align-items-center flex-column">
       <table class="table table-hover">
         <thead>
-        <tr>
-          <th scope="col">NO</th>
-          <th scope="col">NAMA</th>
-          <th scope="col">SEMESTER</th>
-          <th scope="col">T.A</th>
-          <th scope="col">STATUS</th>
-          <th scope="col">JUMLAH EVALUASI</th>
-        </tr>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">NAMA</th>
+            <th scope="col">SEMESTER</th>
+            <th scope="col">T.A</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">JUMLAH EVALUASI</th>
+          </tr>
         </thead>
         <tbody>
-          @foreach ($semuaData as $data)
-          <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $data['nama'] }}</td>
-            <td>{{ $data['semester'] }}</td>
-            <td>{{ $data['tahun_akademik'] }}</td>
-            <td>{{ $data['status'] }}</td>
-            <td>{{ $data['jumlah_evaluasi'] }}</td>
-          </tr>
-          @endforeach
+          @if (count($semuaData) > 0)
+            @foreach ($semuaData as $data)
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $data['nama'] }}</td>
+                <td>{{ $data['semester'] }}</td>
+                <td>{{ $data['tahun_akademik'] }}</td>
+                <td>{{ $data['status'] }}</td>
+                <td>{{ $data['jumlah_evaluasi'] }}</td>
+              </tr>
+            @endforeach
+          @else
+            <tr>
+              <td colspan="6">
+                <p class="text-center my-3 text-danger">Data tidak tersedia</p>
+              </td>
+            </tr>
+          @endif
         </tbody>
       </table>
     </div>

@@ -15,24 +15,24 @@
     <div class="mx-5 mb-5 pb-3">
       <table class="table table-hover">
         <thead>
-        <tr>
-          <th scope="col">NO</th>
-          <th scope="col">NIM</th>
-          <th scope="col">NAMA</th>
-          <th scope="col">DETAIL</th>
-        </tr>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">NIM</th>
+            <th scope="col">NAMA</th>
+            <th scope="col">DETAIL</th>
+          </tr>
         </thead>
         <tbody>
-        @foreach ($daftarMahasiswa as  $mahasiswa)
-          <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $mahasiswa->id }}</td>
-            <td>{{ $mahasiswa->nama }}</td>
-            <td>
-              <a href="/dashboard-dosen/riwayat/{{ $mahasiswa->id }}" class="btn btn-primary">Evaluasi</a>
-            </td>
-          </tr>
-        @endforeach
+          @foreach ($daftarMahasiswa as $mahasiswa)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $mahasiswa->id }}</td>
+              <td>{{ $mahasiswa->nama }}</td>
+              <td>
+                <a href="/dashboard-dosen/riwayat/{{ $mahasiswa->id }}" class="btn btn-primary">Evaluasi</a>
+              </td>
+            </tr>
+          @endforeach
         </tbody>
       </table>
     </div>
