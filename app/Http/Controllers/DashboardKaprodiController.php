@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\FormEvaluasi;
 use App\Models\Kaprodi;
 use App\Models\Mahasiswa;
 use App\Models\SuratKeputusan;
@@ -96,19 +97,17 @@ class DashboardKaprodiController extends Controller
   }
 
   public function report() {
-    $semuaMahasiswa = Mahasiswa::with(['formbimbingan', 'formbimbingan.formevaluasi'])->where('kaprodi_id', Auth::user()->id)->get();
-    $data = [];
-    foreach ($semuaMahasiswa as $mahasiswa) {
-      foreach ($mahasiswa->formbimbingan as $formbimbingan) {
-        $data[] = [
-          'nama' => $mahasiswa->nama,
-          'semester' => $formbimbingan->semester,
-          'tahun_akademik' => $formbimbingan->tahun_akademik,
-          'status' => $formbimbingan->status,
-          'jumlah_evaluasi' => $formbimbingan->formevaluasi->count(),
-        ];
-      }
-    }
+    $idKaprodi = auth()->user()->id;
+
+    $data = DB::table('mahasiswa')
+      ->select('mahasiswa.nama','form_bimbingan.id', 'form_bimbingan.semester', 'form_bimbingan.tahun_akademik', 'form_bimbingan.status', DB::raw('COUNT(form_evaluasi.id) as jumlah_evaluasi'))
+      ->leftJoin('form_bimbingan', 'mahasiswa.id', '=', 'form_bimbingan.mahasiswa_id')
+      ->leftJoin('form_evaluasi', 'form_bimbingan.id', '=', 'form_evaluasi.form_bimbingan_id')
+      ->where('mahasiswa.kaprodi_id', $idKaprodi)
+      ->whereNotNull('form_bimbingan.id') // Hanya ambil mahasiswa yang memiliki form_bimbingan
+      ->groupBy('mahasiswa.nama', 'form_bimbingan.id', 'form_bimbingan.semester', 'form_bimbingan.tahun_akademik', 'form_bimbingan.status')
+      ->paginate(10)->withQueryString();
+
 
     return view('kaprodi.dashboard.report.report', [
       'title' => 'Report',
@@ -116,12 +115,31 @@ class DashboardKaprodiController extends Controller
     ]);
   }
 
+  public function detailReport($id) {
+    $data = FormEvaluasi::where('form_bimbingan_id', $id)->get();
+    return view('kaprodi.dashboard.report.detail', [
+      'title' => 'Detail Evaluasi',
+      'semuaEvaluasi' => $data,
+    ]);
+  }
 
-  public function sk() {
-    $data = SuratKeputusan::with(['kaprodi'])->get();
+
+  public function sk(Request $request) {
+
+    $data = SuratKeputusan::with(['kaprodi'])->where('kaprodi_id', auth()->user()->id)->orderBy('created_at', 'desc');
+    $searchQuery = $request->search;
+
+    if($request->search) {
+      $data->where(function ($query) use ($searchQuery) {
+        $query->where('nama', 'like', '%' . $searchQuery . '%')
+          ->orWhere('tanggal', 'like', '%' . $searchQuery . '%')
+          ->orWhere('nama_berkas', 'like', '%' . $searchQuery . '%');
+        });
+    }
+
     return view('kaprodi.dashboard.sk.sk', [
       'title' => 'Surat Keputusan',
-      'semuaSk' => $data
+      'semuaSk' => $data->paginate(5)->withQueryString(),
     ]);
   }
 
@@ -165,5 +183,56 @@ class DashboardKaprodiController extends Controller
     ]);
 
     return redirect('/dashboard-kaprodi/sk')->with('success', 'Surat Keterangan berhasil ditambah');
+  }
+
+  public function destroy($id) {
+    SuratKeputusan::destroy($id);
+    return redirect('/dashboard-kaprodi/sk')->with('success', 'Surat Keterangan berhasil dihapus');
+  }
+
+  public function editSk($id) {
+    $sk = SuratKeputusan::findOrFail($id);
+    return view('kaprodi.dashboard.sk.update', [
+      'title' => 'Ubah',
+      'sk' => $sk
+    ]);
+  }
+
+  public function updateSk(Request $request, $id) {
+
+    $sk = SuratKeputusan::findOrFail($id);
+
+    $credentials = $request->validate([
+      'nama' => ['required'],
+      'tanggal' => ['required'],
+      'link' => ['max:10000', 'mimes:doc,pdf,docx']
+    ], [
+      'nama.required' => 'Nama surat tidak boleh kosong',
+      'tanggal.required' => 'Tanggal tidak boleh kosong',
+      'link.max' => 'File tidak boleh melebihi 10mb',
+      'link.mimes' => 'File dalam bentuk doc, pdf atau docx',
+    ]);
+
+    if($request->file('link')) {
+      $credentials['link'] = $request->file('link')->store('sk');
+    }
+
+    if($request->file('link')) {
+      $sk->update([
+        'nama' => $request->nama,
+        'tanggal' => $request->tanggal,
+        'link' => $request->file('link')->store('sk'),
+        'nama_berkas' => $request->file('link')->getClientOriginalName(),
+        'updated_at' => now(),
+      ]);
+    } else {
+      $sk->update([
+        'nama' => $request->nama,
+        'tanggal' => $request->tanggal,
+        'updated_at' => now(),
+      ]);
+    }
+
+    return redirect('/dashboard-kaprodi/sk')->with('success', 'Surat Keterangan berhasil update');
   }
 }

@@ -76,6 +76,12 @@ Route::get('/dashboard-kaprodi/kelola', [DashboardKaprodiController::class, 'kel
 Route::get('/dashboard-kaprodi/kelola/{id}', [DashboardKaprodiController::class, 'ubahBimbingan'])->middleware('auth:kaprodi');
 Route::put('/dashboard-kaprodi/kelola/bimbingan/{id}', [DashboardKaprodiController::class, 'updateBimbingan'])->middleware('auth:kaprodi');
 Route::get('/dashboard-kaprodi/report', [DashboardKaprodiController::class, 'report'])->middleware('auth:kaprodi');
+Route::get('/dashboard-kaprodi/report/{id}', [DashboardKaprodiController::class, 'detailReport'])->middleware('auth:kaprodi');
+
+
 Route::get('/dashboard-kaprodi/sk', [DashboardKaprodiController::class, 'sk'])->middleware('auth:kaprodi');
 Route::get('/dashboard-kaprodi/sk/tambah', [DashboardKaprodiController::class, 'addSk'])->middleware('auth:kaprodi');
 Route::post('/dashboard-kaprodi/sk/tambah', [DashboardKaprodiController::class, 'storeSk'])->middleware('auth:kaprodi');
+Route::delete('/dashboard-kaprodi/sk/{id}', [DashboardKaprodiController::class, 'destroy'])->middleware('auth:kaprodi');
+Route::get('/dashboard-kaprodi/sk/update/{id}', [DashboardKaprodiController::class, 'editSk'])->middleware('auth:kaprodi');
+Route::put('/dashboard-kaprodi/sk/update/{id}', [DashboardKaprodiController::class, 'updateSk'])->middleware('auth:kaprodi');

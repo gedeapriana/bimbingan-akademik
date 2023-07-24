@@ -14,11 +14,21 @@
         </header>
 
         <div class="mx-5 mb-5 pb-3 d-flex justify-content-center align-items-center flex-column">
-            <a href="/dashboard-kaprodi/sk/tambah" class="btn btn-success ms-auto my-2">
-                <span class="d-flex gap-2 fw-bold justify-content-center align-items-center">
-                    <x-carbon-folder-add style="width: 20px" />Tambah SK
-                </span>
-            </a>
+            <div class="d-flex justify-content-center align-items-center gap-4 ms-auto">
+                <form action="/dashboard-kaprodi/sk" class="my-3 ms-auto d-flex gap-2">
+                    <label for="search"></label>
+                    <input type="text" class="form-control" name="search" id="search"
+                        placeholder="Nama sk, nama Berkas">
+                    <button type="submit" class="btn btn-primary d-flex justify-content-center align-items-center gap-1">
+                        <x-carbon-search style="width: 20px" />Cari
+                    </button>
+                </form>
+                <a href="/dashboard-kaprodi/sk/tambah" class="btn btn-success ms-auto my-2">
+                    <span class="d-flex gap-2 fw-bold justify-content-center align-items-center">
+                        <x-carbon-folder-add style="width: 20px" />Tambah SK
+                    </span>
+                </a>
+            </div>
             <div class="table-responsive w-100">
                 <table class="table table-hover align-middle">
                     <thead>
@@ -29,14 +39,15 @@
                             <th scope="col" class="w-25">NAMA</th>
                             <th scope="col">TANGGAL</th>
                             <th scope="col">BERKAS</th>
-                            <th scope="col">OPSI</th>
+                            <th scope="col">TERAKHIR DIUBAH</th>
+                            <th scope="col" class="text-center">OPSI</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (count($semuaSk) > 0)
                             @foreach ($semuaSk as $sk)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ($semuaSk->currentpage() - 1) * $semuaSk->perpage() + $loop->index + 1 }}</td>
                                     <td>{{ $sk->nama }}</td>
                                     <td>{{ \Carbon\Carbon::parse($sk->tanggal)->locale('id')->translatedFormat('d F Y') }}
                                     </td>
@@ -48,17 +59,31 @@
                                             </span>
                                         </a>
                                     </td>
-                                    <td class="d-flex gap-1">
-                                        <a href="" class="btn btn-primary">
+                                    <td>{{ \Carbon\Carbon::create($sk->updated_at)->locale('id')->diffForHumans() }}</td>
+                                    <td class="d-flex gap-1 justify-content-center align-items-center">
+                                        <a href="" class="btn btn-success" data-bs-toggle="tooltip"
+                                            data-bs-placement="bottom" data-bs-title="Tooltip on bottom">
                                             <span class="d-flex gap-1 justify-content-center align-items-center">
-                                                <x-fas-pen-to-square style="width: 15px" />Ubah
+                                                <x-fas-eye style="width: 17px" />
                                             </span>
                                         </a>
-                                        <a href="" class="btn btn-danger">
+                                        <a href="/dashboard-kaprodi/sk/update/{{ $sk->id }}" class="btn btn-primary">
                                             <span class="d-flex gap-1 justify-content-center align-items-center">
-                                                <x-fas-trash style="width: 15px" />
+                                                <x-fas-pen-to-square style="width: 15px" />
                                             </span>
                                         </a>
+                                        <form action="/dashboard-kaprodi/sk/{{ $sk->id }}" method="POST"
+                                            class="inline">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button
+                                                onclick="return confirm('Anda yakin ingin menghapus {{ $sk->nama }}')"
+                                                class="btn btn-danger">
+                                                <span class="d-flex gap-1 justify-content-center align-items-center">
+                                                    <x-fas-trash style="width: 14px" />
+                                                </span>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -71,6 +96,10 @@
                         @endif
                     </tbody>
                 </table>
+
+                <div class="d-flex justify-content-center">
+                    {{ $semuaSk->links() }}
+                </div>
             </div>
         </div>
     </div>
