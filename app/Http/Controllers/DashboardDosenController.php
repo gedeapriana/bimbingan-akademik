@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\FormBimbingan;
 use App\Models\FormEvaluasi;
 use App\Models\Mahasiswa;
+use App\Models\SuratKeputusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class DashboardDosenController extends Controller
   public function profile() {
     $data = Dosen::findOrFail(Auth::id());
 		return view('dosen.dashboard.profile.profile', [
-			'title' => 'Dashboard',
+			'title' => 'Profile',
       'dosen' => $data,
 		]);
 	}
@@ -121,6 +122,14 @@ class DashboardDosenController extends Controller
     return view('dosen.dashboard.riwayat.list', [
       'title' => 'Riwayat',
       'daftarEvaluasi' => $formevaluasi
+    ]);
+  }
+
+  public function sk() {
+    $data = SuratKeputusan::paginate(5)->withQueryString();
+    return view('dosen.dashboard.sk.sk', [
+      'title' => 'Surat Keputusan',
+      'semuaSk' => $data
     ]);
   }
 }
